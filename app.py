@@ -6,7 +6,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.llms import Ollama
 import os
 from dotenv import load_dotenv
-
+import requests
 load_dotenv()
 
 # Langsmith Tracking
