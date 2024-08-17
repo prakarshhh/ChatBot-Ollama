@@ -23,11 +23,18 @@ prompt = ChatPromptTemplate.from_messages(
 )
 
 def generate_response(question, llm, temperature, max_tokens):
-    llm = Ollama(model=llm)
-    output_parser = StrOutputParser()
-    chain = prompt | llm | output_parser
-    answer = chain.invoke({'question': question})
-    return answer
+    try:
+        llm = Ollama(model=llm)
+        output_parser = StrOutputParser()
+        chain = prompt | llm | output_parser
+        answer = chain.invoke({'question': question})
+        return answer
+    except requests.exceptions.RequestException as e:
+        st.error(f"Request failed: {e}")
+        return None
+    except Exception as e:
+        st.error(f"An unexpected error occurred: {e}")
+        return None
 
 # Title of the app
 st.set_page_config(page_title="Ollama Chatbot", layout="wide")
